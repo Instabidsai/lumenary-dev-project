@@ -76,21 +76,27 @@ def save_to_bucket(media_file: MediaFile, file_path: Optional[str] = None):
     if file_path is None:
         file_path = f"{uuid.uuid4()}.{media_file.mime_type.split('/')[-1]}"
     full_path = f"{client.get_base_path()}/{file_path}"
-    client.s3_client.put_object(
-        Bucket=client.aws_bucket_name,
-        Key=full_path,
-        Body=media_file.bytes,
-    )
-    return full_path
+    try:
+        client.s3_client.put_object(
+            Bucket=client.aws_bucket_name,
+            Key=full_path,
+            Body=media_file.bytes,
+        )
+        return full_path
+    except Exception as e:
+        raise RuntimeError(f"Failed to upload {full_path}: {e}") from e
 
 
 def delete_from_bucket(path: str):
     client = get_client()
     client.refresh_client_if_expired()
-    client.s3_client.delete_object(
-        Bucket=client.aws_bucket_name,
-        Key=path,
-    )
+    try:
+        client.s3_client.delete_object(
+            Bucket=client.aws_bucket_name,
+            Key=path,
+        )
+    except Exception as e:
+        raise RuntimeError(f"Failed to delete {path}: {e}") from e
 
 
 def get_from_bucket(path: str) -> MediaFile:
@@ -100,10 +106,13 @@ def get_from_bucket(path: str) -> MediaFile:
     base_path = client.get_base_path()
     full_path = path if path.startswith(f"{base_path}/") else f"{base_path}/{path}"
 
-    response = client.s3_client.get_object(
-        Bucket=client.aws_bucket_name,
-        Key=full_path,
-    )
+    try:
+        response = client.s3_client.get_object(
+            Bucket=client.aws_bucket_name,
+            Key=full_path,
+        )
+    except Exception as e:
+        raise RuntimeError(f"Failed to fetch {full_path}: {e}") from e
     return MediaFile(
         size=response["ContentLength"],
         mime_type=response["ContentType"],

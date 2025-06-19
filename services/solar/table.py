@@ -207,10 +207,9 @@ class Table(BaseModel):
                     pool = get_pool(reset=True)
                     continue
                 else:
-                    logger.error(
-                        f"Database operation failed after {max_retries} attempts"
-                    )
-                    raise
+                    msg = f"Database operation failed after {max_retries} attempts"
+                    logger.error(msg)
+                    raise RuntimeError(msg) from e
 
             finally:
                 if conn is not None:
