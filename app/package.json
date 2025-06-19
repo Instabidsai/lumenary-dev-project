@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "build:prod": "vite build --mode production",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -84,6 +85,8 @@
     "@eslint/js": "^9.17.0",
     "@hey-api/client-fetch": "^0.7.2",
     "@hey-api/openapi-ts": "^0.63.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/lodash": "^4.14.202",
     "@types/loglevel": "^1.6.3",
     "@types/node": "^22.10.10",
@@ -99,11 +102,13 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
+    "jsdom": "^26.1.0",
     "postcss": "^8.5.1",
     "tailwindcss": "3.4.17",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
 }
